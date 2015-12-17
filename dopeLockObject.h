@@ -38,6 +38,8 @@
     NSMutableArray *_events6;
     NSString *_user;
 }
+@property(nonatomic) BOOL militaryTime;
+@property(nonatomic) BOOL fullBlur;
 @property(nonatomic) BOOL textColor;
 @property(retain, nonatomic) UIView *topView;
 @property(copy, nonatomic) NSString *user;

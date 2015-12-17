@@ -3,7 +3,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = DopeLock
 DopeLock_FILES = Tweak.xm dopeLockObject.m LPView.m LPViewController.m
-DopeLock_FRAMEWORKS = EventKit
+DopeLock_FRAMEWORKS = EventKit UIKit
 DopeLock_LDFLAGS = -llockpages
 
 include $(THEOS_MAKE_PATH)/tweak.mk

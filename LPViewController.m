@@ -24,7 +24,7 @@ static UIScrollView *dopeScroll;
 		else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1800)];
 		else
-			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1500)];
+			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1600)];
 		lockView.user = @"Friend";
 		[lockView addBasicsToView];
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && screenWidth > screenHeight)
@@ -35,7 +35,7 @@ static UIScrollView *dopeScroll;
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 			[dopeScroll setContentSize: CGSizeMake(screenWidth, 1800)];
 		else
-			[dopeScroll setContentSize: CGSizeMake(screenWidth, 1500)];
+			[dopeScroll setContentSize: CGSizeMake(screenWidth, 1600)];
 
 		// Init __mainView.
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && screenWidth > screenHeight)
@@ -68,6 +68,15 @@ static UIScrollView *dopeScroll;
 -(void)addUser:(NSString *)arg1
 {
 	lockView.user = arg1;
+}
+
+-(void)setBlur:(BOOL)arg1
+{
+	lockView.fullBlur = arg1;
+}
+
+-(void)setMilitaryTime:(BOOL)arg1{
+	lockView.militaryTime = arg1;
 }
 
 -(void)setColor:(BOOL)arg1

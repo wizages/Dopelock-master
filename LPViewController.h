@@ -13,4 +13,6 @@
 -(void)addArray:(NSMutableArray *)arg1;
 -(void)addUser:(NSString *)arg1;
 -(void)setColor:(BOOL)arg1;
+-(void)setBlur:(BOOL)arg1;
+-(void)setMilitaryTime:(BOOL)arg1;
 @end

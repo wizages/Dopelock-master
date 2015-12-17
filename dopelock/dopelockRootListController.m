@@ -40,30 +40,6 @@ return _specifiers;
 }
 
 -(void) viewWillAppear:(BOOL) animated{
-<<<<<<< Updated upstream
-[super viewWillAppear:animated];
-UIView *header;
-header = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width, 60)];
-UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 17, header.frame.size.width, header.frame.size.height - 10)];
-label.text = @"DopeLock";
-label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:48];
-label.backgroundColor = [UIColor clearColor];
-label.textColor = [UIColor colorWithRed:0.17 green:0.24 blue:0.31 alpha:1.0];
-label.textAlignment = NSTextAlignmentCenter;
-
-header.frame = CGRectMake(header.frame.origin.x, header.frame.origin.y, header.frame.size.width, header.frame.size.height + 35);
-label.frame = CGRectMake(label.frame.origin.x, 10, label.frame.size.width, label.frame.size.height - 5);
-[header addSubview:label];
-UILabel *subText = [[UILabel alloc] initWithFrame:CGRectMake(header.frame.origin.x, label.frame.origin.y + label.frame.size.height, header.frame.size.width, 20)];
-subText.text = @"Stay on top of your day, the dope way!";
-subText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-subText.backgroundColor = [UIColor clearColor];
-subText.textColor = [UIColor colorWithRed:0.17 green:0.24 blue:0.31 alpha:1.0];
-subText.textAlignment = NSTextAlignmentCenter;
-
-[header addSubview:subText];
-[self.table setTableHeaderView:header];
-=======
 	[super viewWillAppear:animated];
 	[self setupHeader];
 }
@@ -91,7 +67,11 @@ subText.textAlignment = NSTextAlignmentCenter;
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self setupHeader];
->>>>>>> Stashed changes
+}
+
+-(void)_returnKeyPressed:(id)arg1 {
+     [super _returnKeyPressed:arg1];
+     [self.view endEditing:YES];
 }
 
 

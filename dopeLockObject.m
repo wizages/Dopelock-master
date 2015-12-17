@@ -41,6 +41,7 @@
 }
 
 -(void)updateView {
+
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
@@ -53,6 +54,28 @@
     int hour = [[timeFormat stringFromDate:date] intValue];
     prevHour = hour;
     [timeFormat release];
+
+    if (self.topView != nil) {
+        [self.topView removeFromSuperview];
+        [self.blurEffectView1 removeFromSuperview];
+    }
+    if (hour > 8 && hour < 20) {
+        self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    } else {
+        self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    }
+    if (!self.fullBlur){
+        self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
+        [self.blurEffectView1 setFrame:self.topView.bounds];
+        [self.topView addSubview:self.blurEffectView1];
+    }
+    else
+    {
+        self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
+        [self.blurEffectView1 setFrame:self.bounds];
+        [self addSubview:self.blurEffectView1];
+    }
+
     //Update events
     EKEventStore *store = [[EKEventStore alloc] init];
     NSPredicate *predicateToday = nil;
@@ -250,20 +273,39 @@
         [self.h1 removeFromSuperview];
     }
     self.h1.text = [NSString stringWithFormat:@"Good %@ %@!", timeOfDay, _user];
-     if (hour > 8 && hour < 20) {
-        self.h1.textColor = [UIColor blackColor];
-    } else {
-        self.h1.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
+    //if day time & no white labels: Black
+    if (!self.textColor && (hour > 8 && hour < 20)) {
+        self.h1.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.0 green:0.00 blue:0.00 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+    }//if night & no white Labels: Light Gray
+    else if (!self.textColor && !(hour > 8 && hour < 20)){
+        self.h1.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+    }//all white
+    else{
+        self.h1.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
     }
     if (self.h2 != nil) {
         [self.h2 removeFromSuperview];
     }
     [self randomGreeting];
-    if (hour > 8 && hour < 20) {
-        self.h2.textColor = [UIColor blackColor];
-    } else {
-        self.h2.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-    }
+ 
     if (self.ncToday != nil) {
         [self.ncToday removeFromSuperview];
     }
@@ -275,11 +317,6 @@
     self.ncToday.text = self.todayNCText;
     //Else display this text
     //self.ncToday.text = self.todayAltNCText;
-    if (hour > 8 && hour < 20) {
-        self.ncToday.textColor = [UIColor blackColor];
-    } else {
-        self.ncToday.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-    }
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.ncToday.font = [self.ncToday.font fontWithSize:21];
     else
@@ -297,11 +334,6 @@
     else
         self.ncTomorrow.frame = CGRectMake(5, 245, screenWidth - 30, 250);
     self.ncTomorrow.text = self.tomorrowNCText;
-    if (hour > 8 && hour < 20) {
-        self.ncTomorrow.textColor = [UIColor blackColor];
-    } else {
-        self.ncTomorrow.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-    }
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.ncTomorrow.font = [self.ncTomorrow.font fontWithSize:21];
     else
@@ -310,18 +342,12 @@
     self.ncTomorrow.numberOfLines = 0;
     [self.ncTomorrow sizeToFit];
 
-    if (self.topView != nil) {
-        [self.topView removeFromSuperview];
-        [self.blurEffectView1 removeFromSuperview];
-    }
-    if (hour > 8 && hour < 20) {
-        self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    } else {
-        self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    }
-    self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
-    [self.blurEffectView1 setFrame:self.topView.bounds];
-    [self.topView addSubview:self.blurEffectView1];
+    if(self.separator != nil)
+           [self.separator removeFromSuperview];
+    if(self.textColor)
+        self.separator.backgroundColor = [UIColor whiteColor];
+    else
+        self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
 
     if(self.todayTomorrow != nil)
         [self.todayTomorrow removeFromSuperview];
@@ -329,40 +355,63 @@
         [self.todayDate removeFromSuperview];
     if(self.calendarLabel != nil)
         [self.calendarLabel removeFromSuperview];
-    if(self.textColor){
-        self.todayTomorrow.textColor = [UIColor whiteColor];
-        self.todayDate.textColor = [UIColor whiteColor];
-        self.calendarLabel.textColor = [UIColor whiteColor];
-    }
-    else{
-        self.todayTomorrow.textColor = [UIColor blackColor];
-        self.todayDate.textColor = [UIColor blackColor];
-        self.calendarLabel.textColor = [UIColor blackColor];
-    }
 
     if (self.todayTomorrowView != nil)
     {
         [self.todayTomorrowView removeFromSuperview];
+    }
+    if(self.blurEffectView2 != nil)
+    {
         [self.blurEffectView2 removeFromSuperview];
     }
-    if (hour > 8 && hour < 20) {
-        self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    } else {
-        self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    if (!self.fullBlur){
+        if (hour > 8 && hour < 20) {
+            self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        } else {
+            self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        }
+        self.blurEffectView2 = [[UIVisualEffectView alloc] initWithEffect:self.effect2];
+        [self.blurEffectView2 setFrame:self.todayTomorrowView.bounds];
+        [self.todayTomorrowView addSubview:self.blurEffectView2];
     }
-    self.blurEffectView2 = [[UIVisualEffectView alloc] initWithEffect:self.effect2];
-    [self.blurEffectView2 setFrame:self.todayTomorrowView.bounds];
-    [self.todayTomorrowView addSubview:self.blurEffectView2];
 
-    [self addSubview:self.topView];
-    [self addSubview:self.h1];
-    [self addSubview:self.h2];
-    [self addSubview:self.todayTomorrowView];
-    [self addSubview:self.todayTomorrow];
-    [self addSubview:self.todayDate];
-    [self addSubview:self.calendarLabel];
-    [self addSubview:self.ncToday];
-    [self addSubview:self.ncTomorrow];
+    if(self.fullBlur)
+    {
+        UIVibrancyEffect *test4 = [UIVibrancyEffect effectForBlurEffect:self.effect1];
+        UIVisualEffectView * viewInducingVibrancy = [[UIVisualEffectView alloc] initWithEffect:test4]; // must be the same effect as the blur view
+        [viewInducingVibrancy setFrame:self.bounds];
+        [viewInducingVibrancy.contentView addSubview:self.h1];
+        [viewInducingVibrancy.contentView addSubview:self.h2];
+        [viewInducingVibrancy.contentView addSubview:self.topView];
+        [viewInducingVibrancy.contentView addSubview:self.h1];
+        [viewInducingVibrancy.contentView addSubview:self.h2];
+        [viewInducingVibrancy.contentView addSubview:self.todayTomorrowView];
+        [viewInducingVibrancy.contentView addSubview:self.todayTomorrow];
+        [viewInducingVibrancy.contentView addSubview:self.todayDate];
+        [viewInducingVibrancy.contentView addSubview:self.calendarLabel];
+        [viewInducingVibrancy.contentView addSubview:self.ncToday];
+        [viewInducingVibrancy.contentView addSubview:self.ncTomorrow];
+        if(self.separator != nil)
+           [self.separator removeFromSuperview];
+        [viewInducingVibrancy.contentView addSubview:self.separator];
+        [self addSubview:viewInducingVibrancy];
+    }
+    else{
+        [self addSubview:self.topView];
+        [self addSubview:self.h1];
+        [self addSubview:self.h2];
+        [self addSubview:self.todayTomorrowView];
+        [self addSubview:self.todayTomorrow];
+        [self addSubview:self.todayDate];
+        [self addSubview:self.calendarLabel];
+        [self addSubview:self.ncToday];
+        [self addSubview:self.ncTomorrow];
+        [self addSubview:self.separator];
+    }
+    
+    //[viewInducingVibrancy addSubview:self.topView];
+    
+    
 
 
     //[store release];
@@ -444,7 +493,7 @@
     if (hour > 8 && hour < 20) {
         self.h1.textColor = [UIColor blackColor];
     } else {
-        self.h1.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
+        //self.h1.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
     }
     self.h1.text = [NSString stringWithFormat:@"Good %@ %@!", timeOfDay, _user];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -481,9 +530,16 @@
     } else {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     }
-    self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
-    [self.blurEffectView1 setFrame:self.topView.bounds];
-    [self.topView addSubview:self.blurEffectView1];
+    if (!self.fullBlur){
+        self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
+        [self.blurEffectView1 setFrame:self.topView.bounds];
+        [self.topView addSubview:self.blurEffectView1];
+    }
+    else{
+        self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
+        [self.blurEffectView1 setFrame:self.bounds];
+        [self addSubview:self.blurEffectView1];
+    }
 
     // Today & tomorrow label
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -519,14 +575,16 @@
     else
         self.todayTomorrowView = [[UIView alloc] initWithFrame:CGRectMake(0, 125, screenWidth, 175)];
     self.todayTomorrowView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.01];
-    if (hour > 8 && hour < 20) {
-        self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    } else {
-        self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    if (!self.fullBlur){
+        if (hour > 8 && hour < 20) {
+            self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        } else {
+            self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        }
+        self.blurEffectView2 = [[UIVisualEffectView alloc] initWithEffect:self.effect2];
+        [self.blurEffectView2 setFrame:self.todayTomorrowView.bounds];
+        [self.todayTomorrowView addSubview:self.blurEffectView2];
     }
-    self.blurEffectView2 = [[UIVisualEffectView alloc] initWithEffect:self.effect2];
-    [self.blurEffectView2 setFrame:self.todayTomorrowView.bounds];
-    [self.todayTomorrowView addSubview:self.blurEffectView2];
 
     // Calendar label
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -554,12 +612,15 @@
         self.separator = [[UIView alloc] initWithFrame:CGRectMake(0, 400, screenWidth, 1)];
     else
         self.separator = [[UIView alloc] initWithFrame:CGRectMake(0, 240, screenWidth, 1)];
-    self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    if(self.textColor)
+        self.separator.backgroundColor = [UIColor whiteColor];
+    else
+        self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
 
     // Display views + labels
-    [self addSubview:self.topView];
-    [self addSubview:self.h1];
-    [self addSubview:self.h2];
+    //[self addSubview:self.topView];
+    //[self addSubview:self.h1];
+    //[self addSubview:self.h2];
     [self addSubview:self.todayTomorrow];
     [self addSubview:self.todayDate];
     [self addSubview:self.todayTomorrowView];
@@ -732,6 +793,7 @@
         [self.separator removeFromSuperview];
     }
     self.separator.frame = CGRectMake(0, 400, screenWidth, 1);
+
     /*
     self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
     */
@@ -798,14 +860,16 @@
     else
         *eventView = [[UIView alloc] initWithFrame:CGRectMake(0, 340 + (170 * dayNumber) , screenWidth, 150)];
     [*eventView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.01]];
-    if (hour > 8 && hour < 20) {
-        self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    } else {
-        self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    if (!self.fullBlur){
+        if (hour > 8 && hour < 20) {
+            self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        } else {
+            self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        }
+        UIVisualEffectView *blurEffectView3 = [[UIVisualEffectView alloc] initWithEffect:self.effect3];
+        [blurEffectView3 setFrame:[*eventView bounds]];
+        [*eventView addSubview:blurEffectView3];
     }
-    UIVisualEffectView *blurEffectView3 = [[UIVisualEffectView alloc] initWithEffect:self.effect3];
-    [blurEffectView3 setFrame:[*eventView bounds]];
-    [*eventView addSubview:blurEffectView3];
 
 
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 5 , 70, 90)];
@@ -860,10 +924,16 @@
         eventMonthLabel.font = [eventMonthLabel.font fontWithSize:9];
 
     UIView *eventLine = [[UIView alloc] initWithFrame:CGRectMake(5, 65 , 60, 1)];
-    eventLine.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    if(self.textColor)
+        eventLine.backgroundColor = [UIColor whiteColor];
+    else
+        eventLine.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
 
     UIView *descriptionLine = [[UIView alloc] initWithFrame:CGRectMake(100, 95, screenWidth - 120, 1)];
-    descriptionLine.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    if(self.textColor)
+        descriptionLine.backgroundColor = [UIColor whiteColor];
+    else
+        descriptionLine.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
 
 
     [redView addSubview:eventDayLabel];
@@ -906,7 +976,10 @@
     grid6am.backgroundColor = [UIColor clearColor];
     grid6am.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
     grid6am.textColor = [UIColor whiteColor];
-    grid6am.text = @"6am";
+    if (self.militaryTime)
+        grid6am.text = @"6:00";
+    else
+        grid6am.text = @"6am";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         grid6am.font = [grid6am.font fontWithSize:8];
     else
@@ -915,7 +988,10 @@
     grid12pm.backgroundColor = [UIColor clearColor];
     grid12pm.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
     grid12pm.textColor = [UIColor whiteColor];
-    grid12pm.text = @"12pm";
+    if (self.militaryTime)
+        grid12pm.text = @"12:00";
+    else
+        grid12pm.text = @"12pm";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         grid12pm.font = [grid12pm.font fontWithSize:8];
     else
@@ -924,7 +1000,11 @@
     grid6pm.backgroundColor = [UIColor clearColor];
     grid6pm.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
     grid6pm.textColor = [UIColor whiteColor];
-    grid6pm.text = @"6pm";
+    if (self.militaryTime)
+        grid6pm.text = @"18:00";
+    else
+        grid6pm.text = @"6pm";
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         grid6pm.font = [grid6pm.font fontWithSize:8];
     else
@@ -1086,11 +1166,17 @@
     if (tableView.tag == 1000) {
         EKEvent *event = [_events0 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription0 != nil)
@@ -1100,11 +1186,15 @@
         self.eventDescription0 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1125,11 +1215,17 @@
     else if (tableView.tag == 1001) {
         EKEvent *event = [_events1 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription1 != nil)
@@ -1139,11 +1235,15 @@
         self.eventDescription1 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1164,11 +1264,17 @@
     else if (tableView.tag == 1002) {
         EKEvent *event = [_events2 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription2 != nil)
@@ -1178,11 +1284,15 @@
         self.eventDescription2 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1203,11 +1313,17 @@
     else if (tableView.tag == 1003) {
         EKEvent *event = [_events3 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription3 != nil)
@@ -1217,11 +1333,15 @@
         self.eventDescription3 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1242,11 +1362,17 @@
     else if (tableView.tag == 1004) {
         EKEvent *event = [_events4 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription4 != nil)
@@ -1256,11 +1382,15 @@
         self.eventDescription4 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1281,11 +1411,17 @@
     else if (tableView.tag == 1005) {
         EKEvent *event = [_events5 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription5 != nil)
@@ -1295,11 +1431,15 @@
         self.eventDescription5 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];
@@ -1320,11 +1460,17 @@
     else if (tableView.tag == 1006) {
         EKEvent *event = [_events6 objectAtIndex:indexPath.row];
         NSDateFormatter *startDateEvent = [[NSDateFormatter alloc]init];
-        [startDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [startDateEvent setDateFormat:@"HH:mm"];
+        else
+            [startDateEvent setDateFormat:@"hh:mm"];
         NSString *startEventDateString = [startDateEvent stringFromDate:event.startDate];
         [startDateEvent release];
         NSDateFormatter *endDateEvent = [[NSDateFormatter alloc]init];
-        [endDateEvent setDateFormat:@"HH:mm"];
+        if(self.militaryTime)
+            [endDateEvent setDateFormat:@"HH:mm"];
+        else
+            [endDateEvent setDateFormat:@"hh:mm"];
         NSString *endEventDateString = [endDateEvent stringFromDate:event.endDate];
         [endDateEvent release];
         if (self.eventDescription6 != nil)
@@ -1334,11 +1480,15 @@
         self.eventDescription6 = [[UIScrollView alloc] initWithFrame:CGRectMake(80, 96, screenWidth - 80, 49)];
         descriptionLabel.backgroundColor = [UIColor clearColor];
         descriptionLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-        if (hour > 8 && hour < 20) {
+        if (!self.textColor && (hour > 8 && hour < 20)) {
             descriptionLabel.textColor = [UIColor blackColor];
-        } else {
+        } else if (!self.textColor && !(hour > 8 && hour < 20)){
             descriptionLabel.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
-        } if (event.notes != nil) {
+        } else
+        {
+            descriptionLabel.textColor = [UIColor whiteColor];
+        } 
+        if (event.notes != nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@. It starts at %@ and it ends at %@.\nNotes: %@", event.title, startEventDateString, endEventDateString, event.notes];
         } else if (event.notes == nil) {
             descriptionLabel.text = [NSString stringWithFormat:@"The title of your event is %@.\nIt starts at %@ and it ends at %@.", event.title, startEventDateString, endEventDateString];

@@ -3,9 +3,12 @@
 #import "Imports.h"
 static bool enabled = true;
 static bool textColor = false;
+static bool fullBlur = false;
 static NSMutableArray *todayArray = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", @"", nil];
 static LPViewController *_mainPage;
-static NSString *user = @"Friend"; 
+static NSString *user = @"Friend";
+static bool keepLSNotif = false;
+static bool militaryTime = false;
 
 id delegate;
 int testing = 0;
@@ -57,10 +60,31 @@ int testing = 0;
          
  -(void)didMoveToWindow {
     if(enabled){
-        [_mainPage addArray:todayArray];
+        [_mainPage setMilitaryTime:militaryTime];
+        [_mainPage setBlur:fullBlur];
         [_mainPage addUser:user];
+        [_mainPage addArray:todayArray];
     }
     %orig;
+}
+
+%end
+
+%hook SBLockScreenNotificationListController
+
+- (_Bool)removeItemsForNotificationCenterPresentation
+{
+    if(enabled && keepLSNotif)
+        return NO;
+    else
+        return %orig;
+}
+- (_Bool)removeItemsForUnlock
+{
+    if(enabled && keepLSNotif)
+        return NO;
+    else
+        return %orig;
 }
 
 %end
@@ -87,6 +111,9 @@ static void loadPrefs()
         enabled =  ( [prefs objectForKey:@"enabled"] ? [[prefs objectForKey:@"enabled"] boolValue] : enabled );
         user = [prefs objectForKey:@"name"];
         textColor =  ( [prefs objectForKey:@"textColor"] ? [[prefs objectForKey:@"textColor"] boolValue] : textColor );
+        fullBlur = ( [prefs objectForKey:@"fullBlur"] ? [[prefs objectForKey:@"fullBlur"] boolValue] : fullBlur );
+        keepLSNotif = ( [prefs objectForKey:@"keepLSNotif"] ? [[prefs objectForKey:@"keepLSNotif"] boolValue] : keepLSNotif );
+        militaryTime = ( [prefs objectForKey:@"militaryTime"] ? [[prefs objectForKey:@"militaryTime"] boolValue] : militaryTime );
         if(!user || user == nil)
             user=@"Friend";
     }
@@ -101,6 +128,7 @@ static void loadPrefs()
     {
             @autoreleasepool {
              _mainPage = [[LPViewController alloc] init];
+             [_mainPage setBlur:fullBlur];
              [_mainPage addUser:user];
              [_mainPage setColor:textColor];
             [[LPPageController sharedInstance] addPage:_mainPage];
