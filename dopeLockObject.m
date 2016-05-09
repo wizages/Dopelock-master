@@ -59,7 +59,9 @@
         [self.topView removeFromSuperview];
         [self.blurEffectView1 removeFromSuperview];
     }
-    if (hour > 8 && hour < 20) {
+    
+
+    if ((hour > 8 && hour < 20&& self.styleColor == 3) || self.styleColor == 0) {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     } else {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -273,26 +275,9 @@
         [self.h1 removeFromSuperview];
     }
     self.h1.text = [NSString stringWithFormat:@"Good %@ %@!", timeOfDay, _user];
-    //if day time & no white labels: Black
-    if (!self.textColor && (hour > 8 && hour < 20)) {
-        self.h1.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.h2.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.ncToday.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.ncTomorrow.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.todayTomorrow.textColor = [UIColor colorWithRed:0.0 green:0.00 blue:0.00 alpha:1.0];
-        self.todayDate.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.calendarLabel.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-    }//if night & no white Labels: Light Gray
-    else if (!self.textColor && !(hour > 8 && hour < 20)){
-        self.h1.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.h2.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.ncToday.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.ncTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.todayTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.todayDate.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.calendarLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-    }//all white
-    else{
+    
+    //If you have white text enabled, the text will turn white!
+    if (self.textColor) {
         self.h1.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.h2.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.ncToday.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
@@ -301,6 +286,27 @@
         self.todayDate.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.calendarLabel.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
     }
+    // Black Text - (if Day time & Auto change) or (Light Theme )
+    else if  (((hour > 8 && hour < 20) && self.styleColor == 3) || self.styleColor == 0) {
+        self.h1.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.0 green:0.00 blue:0.00 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+    }
+    // Grey Text - (if Night time & Auto change) or (Dark Theme )
+    else if ((!(hour > 8 && hour < 20) && self.styleColor == 3) || self.styleColor == 1) {
+        self.h1.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+    }
+    
     if (self.h2 != nil) {
         [self.h2 removeFromSuperview];
     }
@@ -324,7 +330,6 @@
     self.ncToday.lineBreakMode = UILineBreakModeWordWrap;
     self.ncToday.numberOfLines = 0;
     [self.ncToday sizeToFit];
-
 
     if (self.ncTomorrow != nil) {
         [self.ncTomorrow removeFromSuperview];
@@ -365,7 +370,7 @@
         [self.blurEffectView2 removeFromSuperview];
     }
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -410,8 +415,6 @@
     }
     
     //[viewInducingVibrancy addSubview:self.topView];
-    
-    
 
 
     //[store release];
@@ -444,7 +447,7 @@
     else
         self.ncToday = [[UILabel alloc] initWithFrame:CGRectMake(5, 130, screenWidth - 30, 250)];
     self.ncToday.text = self.todayNCText;
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.ncToday.textColor = [UIColor blackColor];
     } else {
         self.ncToday.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -463,7 +466,7 @@
     else
         self.ncTomorrow = [[UILabel alloc] initWithFrame:CGRectMake(5, 245, screenWidth - 30, 250)];
     self.ncTomorrow.text = self.tomorrowNCText;
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.ncTomorrow.textColor = [UIColor blackColor];
     } else {
         self.ncTomorrow.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -490,7 +493,7 @@
         self.h1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, screenWidth, 37)];
     self.h1.backgroundColor = [UIColor clearColor];
     self.h1.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.h1.textColor = [UIColor blackColor];
     } else {
         //self.h1.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -509,7 +512,7 @@
 
     self.h2.backgroundColor = [UIColor clearColor];
     self.h2.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.h2.textColor = [UIColor blackColor];
     } else {
         self.h2.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -525,7 +528,7 @@
     // "Good..." + "Please..." view (at the top) + blur
     self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight / 8)];
     self.topView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.01];
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     } else {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -576,7 +579,7 @@
         self.todayTomorrowView = [[UIView alloc] initWithFrame:CGRectMake(0, 125, screenWidth, 175)];
     self.todayTomorrowView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.01];
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -861,7 +864,7 @@
         *eventView = [[UIView alloc] initWithFrame:CGRectMake(0, 340 + (170 * dayNumber) , screenWidth, 150)];
     [*eventView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.01]];
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];

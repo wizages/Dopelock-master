@@ -9,6 +9,8 @@ static LPViewController *_mainPage;
 static NSString *user = @"Friend";
 static bool keepLSNotif = false;
 static bool militaryTime = false;
+static long long styleColor = 3;
+
 
 id delegate;
 int testing = 0;
@@ -114,6 +116,8 @@ static void loadPrefs()
         fullBlur = ( [prefs objectForKey:@"fullBlur"] ? [[prefs objectForKey:@"fullBlur"] boolValue] : fullBlur );
         keepLSNotif = ( [prefs objectForKey:@"keepLSNotif"] ? [[prefs objectForKey:@"keepLSNotif"] boolValue] : keepLSNotif );
         militaryTime = ( [prefs objectForKey:@"militaryTime"] ? [[prefs objectForKey:@"militaryTime"] boolValue] : militaryTime );
+        styleColor = ( [prefs objectForKey:@"styleColor"] ? [[prefs objectForKey:@"styleColor"] longValue] : styleColor );
+
         if(!user || user == nil)
             user=@"Friend";
     }
@@ -131,6 +135,7 @@ static void loadPrefs()
              [_mainPage setBlur:fullBlur];
              [_mainPage addUser:user];
              [_mainPage setColor:textColor];
+             [_mainPage setStyleColor:styleColor];
             [[LPPageController sharedInstance] addPage:_mainPage];
     }
     }

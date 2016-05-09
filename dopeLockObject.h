@@ -41,6 +41,7 @@
 @property(nonatomic) BOOL militaryTime;
 @property(nonatomic) BOOL fullBlur;
 @property(nonatomic) BOOL textColor;
+@property(nonatomic) long long styleColor;
 @property(retain, nonatomic) UIView *topView;
 @property(copy, nonatomic) NSString *user;
 @property(retain, nonatomic) UILabel *h1;

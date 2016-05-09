@@ -24,6 +24,32 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>label</key>
+			<string>Blur Color</string>
+			<key>key</key>
+			<string>styleColor</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/ReloadPrefs</string>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>3</integer>
+			</array>
+			<key>default</key>
+			<integer>3</integer>
+			<key>validTitles</key>
+			<array>
+				<string>Light Blur</string>
+				<string>Dark Blur</string>
+				<string>Auto Change</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>
@@ -99,13 +125,13 @@
 			<string>dopelockMakersListController</string>
 		</dict>
 		<dict>
-         	<key>action</key>
-         	<string>emailDev</string>
-         	<key>cell</key>
-         	<string>PSLinkCell</string>
-         	<key>label</key>
-         	<string>Support</string>
-     	</dict>
+			<key>action</key>
+			<string>emailDev</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Support</string>
+		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

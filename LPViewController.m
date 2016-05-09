@@ -65,22 +65,23 @@ static UIScrollView *dopeScroll;
 	[self setView:__mainView];
 }
 
--(void)addUser:(NSString *)arg1
-{
+-(void)addUser:(NSString *)arg1{
 	lockView.user = arg1;
 }
 
--(void)setBlur:(BOOL)arg1
-{
+-(void)setBlur:(BOOL)arg1{
 	lockView.fullBlur = arg1;
+}
+
+-(void)setStyleColor:(long long)arg1{
+    lockView.styleColor = arg1;
 }
 
 -(void)setMilitaryTime:(BOOL)arg1{
 	lockView.militaryTime = arg1;
 }
 
--(void)setColor:(BOOL)arg1
-{
+-(void)setColor:(BOOL)arg1{
 	lockView.textColor = arg1;
 }
 // 	Delegate methods.
@@ -90,6 +91,6 @@ static UIScrollView *dopeScroll;
 }
 
 - (double)idleTimerInterval {
-	return 120.0; //Autolock is disabled during 2 minutes when you are on the DopeView
+	return 60.0; //Autolock is disabled during 1 minutes when you are on the DopeView
 }
 @end
