@@ -10,6 +10,8 @@ static NSString *user = @"Friend";
 static bool keepLSNotif = false;
 static bool militaryTime = false;
 static long long styleColor = 3;
+static bool disableCamGrabber = false;
+static bool disableHandOffGrabber = false;
 
 
 id delegate;
@@ -115,6 +117,22 @@ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dopelock Helper"
         return %orig;
 }
 
+- (void)_addCameraGrabberIfNecessary{
+	if(disableCamGrabber){
+		//No camera grabber :)
+	}	
+	else
+		%orig;
+}
+        
+- (void)_addBottomLeftGrabberIfNecessaryForAutoUnlock:(_Bool)arg1{
+	if(disableHandOffGrabber){
+		//No handoff grabber :)
+	}	
+	else
+		%orig;
+}
+
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
 {
     %orig;
@@ -135,6 +153,8 @@ static void loadPrefs()
         keepLSNotif = ( [prefs objectForKey:@"keepLSNotif"] ? [[prefs objectForKey:@"keepLSNotif"] boolValue] : keepLSNotif );
         militaryTime = ( [prefs objectForKey:@"militaryTime"] ? [[prefs objectForKey:@"militaryTime"] boolValue] : militaryTime );
         styleColor = ( [prefs objectForKey:@"styleColor"] ? [[prefs objectForKey:@"styleColor"] longValue] : styleColor );
+        disableHandOffGrabber =  ( [prefs objectForKey:@"disableHandOffGrabber"] ? [[prefs objectForKey:@"disableHandOffGrabber"] boolValue] : disableHandOffGrabber );
+        disableCamGrabber =  ( [prefs objectForKey:@"disableCamGrabber"] ? [[prefs objectForKey:@"disableCamGrabber"] boolValue] : disableCamGrabber );
 
         if(!user || user == nil)
             user=@"Friend";
