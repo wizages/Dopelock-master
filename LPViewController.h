@@ -16,4 +16,6 @@
 -(void)setBlur:(BOOL)arg1;
 -(void)setMilitaryTime:(BOOL)arg1;
 -(void)setStyleColor:(long long)arg1;
+-(void)rotateView;
+
 @end

@@ -15,7 +15,22 @@ static long long styleColor = 3;
 id delegate;
 int testing = 0;
 
+%hook SpringBoard
 
+-(void)applicationDidFinishLaunching:(id)application {
+%orig;
+if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ){
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dopelock Helper"
+    message:@"Rotate your iPad once to fix any landscape rotation issues!"
+    delegate:nil
+    cancelButtonTitle:@"Sure!"
+    otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    }
+}
+
+%end
 
 %hook BBBulletin
 
@@ -47,7 +62,6 @@ int testing = 0;
                 [todayArray replaceObjectAtIndex:4 withObject:test.message];
             }
         }
-        
         return test;
     }
     else
@@ -66,6 +80,8 @@ int testing = 0;
         [_mainPage setBlur:fullBlur];
         [_mainPage addUser:user];
         [_mainPage addArray:todayArray];
+        [_mainPage viewWillAppear:NO];
+        %orig;
     }
     %orig;
 }
@@ -92,9 +108,6 @@ int testing = 0;
 %end
 
 %hook SBLockScreenViewController
-
-
-
 - (_Bool)isBounceEnabledForPresentingController:(id)arg1 locationInWindow:(struct CGPoint)arg2 {
     if(enabled)
         return NO;
@@ -102,6 +115,11 @@ int testing = 0;
         return %orig;
 }
 
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    %orig;
+    [_mainPage rotateView];
+}
 
 %end
 

@@ -19,38 +19,34 @@ static UIScrollView *dopeScroll;
 		CGRect screenRect = [[UIScreen mainScreen] bounds];
 		CGFloat screenWidth = screenRect.size.width;
 		CGFloat screenHeight = screenRect.size.height;
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && screenWidth > screenHeight)
-			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1800)];
-		else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1800)];
-		else
-			lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1600)];
-		lockView.user = @"Friend";
-		[lockView addBasicsToView];
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && screenWidth > screenHeight)
-			dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, screenHeight, screenWidth)];
-		else
-			dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, screenWidth, screenHeight)];
-		[dopeScroll addSubview:lockView];
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-			[dopeScroll setContentSize: CGSizeMake(screenWidth, 1800)];
-		else
-			[dopeScroll setContentSize: CGSizeMake(screenWidth, 1600)];
+        __mainView = [[LPView alloc] initWithFrame:screenRect];
+        lockView = [[DopeLock alloc] initWithFrame:screenRect];
 
-		// Init __mainView.
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && screenWidth > screenHeight)
-			__mainView = [[LPView alloc] initWithFrame:CGRectMake((screenWidth-screenHeight)/2, 0, screenHeight, screenHeight)];
-		else
-			__mainView = [[LPView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        
+        //Sets the size area for dopeScroll
+        if(screenRect.size.width>screenRect.size.height) //Landscape
+            dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)]; //Landscape Respring on iPad
+        else //portrait
+            dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)]; //Landscape Respring on iPad
+        
+        // Sets size for the content of dopeScroll
+		[dopeScroll addSubview:lockView];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            [dopeScroll setContentSize: CGSizeMake(screenWidth, 1725)];
+        else
+            [dopeScroll setContentSize: CGSizeMake(screenWidth, 1600)];
+
+        
+        lockView.user = @"Friend";
+        [lockView addBasicsToView];
 		// Calling methods declared in LPView.h to set LPViewController as delegate of LPPage protocol.
-		[__mainView setDelegate:self];
-		// Remeber: LPView is a subclass of UIView! ;)
+        [__mainView setDelegate:self];
+        // Remeber: LPView is a subclass of UIView! ;)
 		[__mainView setBackgroundColor:[UIColor clearColor]];
 		[__mainView addSubview:dopeScroll];
 		//__mainView.userInteractionEnabled=NO; //hey hey :)
 		// Setting LPView as LPViewController's view.
 		[self setView:__mainView];
-
 	}
 	return self;
 }
@@ -81,6 +77,27 @@ static UIScrollView *dopeScroll;
 	lockView.militaryTime = arg1;
 }
 
+-(void) viewWillAppear:(BOOL) animated{
+    [super viewWillAppear:animated];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [__mainView setFrame:screenRect];
+}
+
+-(void)rotateView {// When iPad is rotated
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+
+    if (screenWidth>screenHeight) //Landscape Rotation
+        [lockView setFrame:CGRectMake(128, 5, screenHeight, screenHeight)];
+    else //Portrait
+        [lockView setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+
+    [dopeScroll setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+    [dopeScroll setContentSize: CGSizeMake(screenWidth, 1725)];
+}
+
+
 -(void)setColor:(BOOL)arg1{
 	lockView.textColor = arg1;
 }
@@ -91,6 +108,6 @@ static UIScrollView *dopeScroll;
 }
 
 - (double)idleTimerInterval {
-	return 60.0; //Autolock is disabled during 1 minutes when you are on the DopeView
+	return 60.0; //Autolock is disabled during 145 minutes when you are on the DopeView
 }
 @end

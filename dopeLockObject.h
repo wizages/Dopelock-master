@@ -53,6 +53,7 @@
 @property(retain, nonatomic) UILabel *todayDate;
 @property(retain, nonatomic) UILabel *calendarLabel;
 @property(retain, nonatomic) UIView *separator;
+@property(retain, nonatomic) UIView *separator2;
 @property(retain, nonatomic) UIVisualEffectView *blurEffectView1;
 @property(retain, nonatomic) UIVisualEffectView *blurEffectView2;
 @property(copy, nonatomic) NSString *todayNCText;
