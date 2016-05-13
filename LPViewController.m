@@ -27,14 +27,14 @@ static UIScrollView *dopeScroll;
         if(screenRect.size.width>screenRect.size.height) //Landscape
             dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)]; //Landscape Respring on iPad
         else //portrait
-            dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)]; //Landscape Respring on iPad
+            dopeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
         
         // Sets size for the content of dopeScroll
 		[dopeScroll addSubview:lockView];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             [dopeScroll setContentSize: CGSizeMake(screenWidth, 1725)];
         else
-            [dopeScroll setContentSize: CGSizeMake(screenWidth, 1600)];
+            [dopeScroll setContentSize: CGSizeMake(screenWidth, 1550)];
 
         
         lockView.user = @"Friend";

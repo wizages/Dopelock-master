@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>General</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/textColor.png</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>key</key>
+			<string>textColor</string>
+			<key>label</key>
+			<string>White Text Color</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/settingschanged</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/militaryTime.png</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>key</key>
+			<string>militaryTime</string>
+			<key>label</key>
+			<string>12h - 24h</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/settingschanged</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/keepLSNotif.png</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>key</key>
+			<string>keepLSNotif</string>
+			<key>label</key>
+			<string>Keep Notifications</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/settingschanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>label</key>
+			<string>Your Name</string>
+			<key>placeholder</key>
+			<string>Friend</string>
+			<key>key</key>
+			<string>name</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/settingschanged</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/camGrabber.png</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>key</key>
+			<string>disableCamGrabber</string>
+			<key>label</key>
+			<string>Disable Camera Grabber</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/ReloadPrefs</string>
+			<key>cellClass</key>
+			<string>DLSwitchPref</string>
+			<key>subtitle</key>
+			<string>Recommened on smaller screens</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/HandOff.png</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>key</key>
+			<string>disableHandOffGrabber</string>
+			<key>label</key>
+			<string>Disable HandOff Grabber</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/ReloadPrefs</string>
+			<key>cellClass</key>
+			<string>DLSwitchPref</string>
+			<key>subtitle</key>
+			<string>Recommened on smaller screens</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Blur Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>defaults</key>
+			<string>com.dopeteam.dopelock</string>
+			<key>label</key>
+			<string>Blur Color</string>
+			<key>key</key>
+			<string>styleColor</string>
+			<key>PostNotification</key>
+			<string>com.dopeteam.dopelock/ReloadPrefs</string>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>3</integer>
+			</array>
+			<key>default</key>
+			<integer>3</integer>
+			<key>validTitles</key>
+			<array>
+				<string>Light Blur</string>
+				<string>Dark Blur</string>
+				<string>Auto Change</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>icon</key>
+			<string>images/respring.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Save Changes and Respring</string>
+			<key>action</key>
+			<string>respring</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>General</string>
+</dict>
+</plist>

@@ -12,32 +12,39 @@
 
 -(void) randomGreeting {
     int smallest = 1;
-    int largest = 21;
+    int largest = 27;
     int random = smallest + arc4random() % (largest + 1 - smallest);
 
     switch (random)
     {
-    case 1: self.h2.text = @"Please check your events for today!"; break;
-    case 2: self.h2.text = @"How are you today?"; break;
-    case 3: self.h2.text = @"Have a nice day!"; break;
-    case 4: self.h2.text = @"You look so young today!"; break;
-    case 5: self.h2.text = @"Your smile brightens the room :)"; break;
-    case 6: self.h2.text = @"Have you lost weight?"; break;
-    case 7: self.h2.text = @"You look so young!"; break;
-    case 8: self.h2.text = @"Check the weather for today!"; break;
-    case 9: self.h2.text = @"You are a special person!"; break;
-    case 10: self.h2.text = @"You are not a failure"; break;
-    case 11: self.h2.text = @"It is a beautiful day!"; break;
-    case 12: self.h2.text = @"Hope you have a perfect day today!"; break;
-    case 13: self.h2.text = @"Good luck!"; break;
-    case 14: self.h2.text = @"You are so beautiful :)"; break;
-    case 15: self.h2.text = @"Every minute spent wih you is a minute well spent."; break;
-    case 16: self.h2.text = @"I hope you're having a good day!"; break;
-    case 17: self.h2.text = @"Be happy!"; break;
-    case 18: self.h2.text = @"Today is a new day, with infinite possibilities."; break;
-    case 19: self.h2.text = @"In a few hours, you can go back to sleep!"; break;
-    case 20: self.h2.text = @"YOOUUUUUHHHHOOOUUUU!"; break;
-    default: self.h2.text = @"You're awesome :)"; break;
+        case 1: self.h2.text = @"Please check your events for today!"; break;
+        case 2: self.h2.text = @"How are you today?"; break;
+        case 3: self.h2.text = @"Have a nice day!"; break;
+        case 4: self.h2.text = @"You look so young today!"; break;
+        case 5: self.h2.text = @"Your smile brightens the room :)"; break;
+        case 6: self.h2.text = @"Have you lost weight?"; break;
+        case 7: self.h2.text = @"You look so young!"; break;
+        case 8: self.h2.text = @"Check the weather for today!"; break;
+        case 9: self.h2.text = @"You are a special person!"; break;
+        case 10: self.h2.text = @"You are not a failure"; break;
+        case 11: self.h2.text = @"It is a beautiful day!"; break;
+        case 12: self.h2.text = @"Hope you have a perfect day today!"; break;
+        case 13: self.h2.text = @"Good luck!"; break;
+        case 14: self.h2.text = @"You are so beautiful :)"; break;
+        case 15: self.h2.text = @"All you need is a little love."; break;
+        case 16: self.h2.text = @"I hope you're having a good day!"; break;
+        case 17: self.h2.text = @"Be happy!"; break;
+        case 18: self.h2.text = @"Today is a new day, with infinite possibilities."; break;
+        case 19: self.h2.text = @"In a few hours, you can go back to sleep!"; break;
+        case 20: self.h2.text = @"The light behind your eyes!"; break;
+        case 21: self.h2.text = @"Make the best of today!"; break;
+        case 22: self.h2.text = @"You only live forever in the light you make!"; break;
+        case 23: self.h2.text = @"YOOUUUUUHHHHOOOUUUU!"; break;
+        case 24: self.h2.text = @"Say hello to good times!"; break;
+        case 25: self.h2.text = @"Check out CleanSheets on Cydia!"; break;
+        case 26: self.h2.text = @"One step at a time!"; break;
+        
+        default: self.h2.text = @"You're awesome :)"; break;
     }
 }
 
@@ -322,7 +329,7 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.ncToday.frame =  CGRectMake(20, 220, screenWidth - 100, 250);
     else
-        self.ncToday.frame = CGRectMake(5, 130, screenWidth - 30, 250);
+        self.ncToday.frame = CGRectMake(5, 120, screenWidth - 30, 250);
     //If event at least one event exists then display this text
     self.ncToday.text = self.todayNCText;
     //Else display this text
