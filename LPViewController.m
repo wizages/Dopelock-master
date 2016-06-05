@@ -1,11 +1,4 @@
-//
-//  LockLyrics7.xm
-//  LockLyrics7
-//
-//  Created by Pigi Galdi on 13.10.2014.
-//  Copyright (c) 2014 Pigi Galdi. All rights reserved.
-//
-//	Imports.
+
 #import "Imports.h"
 #import "dopeLockObject.h"
 #include "Headers.h"
@@ -20,8 +13,7 @@ static UIScrollView *dopeScroll;
 		CGFloat screenWidth = screenRect.size.width;
 		CGFloat screenHeight = screenRect.size.height;
         __mainView = [[LPView alloc] initWithFrame:screenRect];
-        lockView = [[DopeLock alloc] initWithFrame:screenRect];
-
+        lockView = [[DopeLock alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1800)];
         
         //Sets the size area for dopeScroll
         if(screenRect.size.width>screenRect.size.height) //Landscape
@@ -36,7 +28,6 @@ static UIScrollView *dopeScroll;
         else
             [dopeScroll setContentSize: CGSizeMake(screenWidth, 1550)];
 
-        
         lockView.user = @"Friend";
         [lockView addBasicsToView];
 		// Calling methods declared in LPView.h to set LPViewController as delegate of LPPage protocol.
@@ -89,14 +80,13 @@ static UIScrollView *dopeScroll;
     CGFloat screenHeight = screenRect.size.height;
 
     if (screenWidth>screenHeight) //Landscape Rotation
-        [lockView setFrame:CGRectMake(128, 5, screenHeight, screenHeight)];
+        [lockView setFrame:CGRectMake(128, 5, screenHeight, 1800)];
     else //Portrait
-        [lockView setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+        [lockView setFrame:CGRectMake(0, 0, screenWidth, 1800)];
 
     [dopeScroll setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
     [dopeScroll setContentSize: CGSizeMake(screenWidth, 1725)];
 }
-
 
 -(void)setColor:(BOOL)arg1{
 	lockView.textColor = arg1;
@@ -104,7 +94,7 @@ static UIScrollView *dopeScroll;
 // 	Delegate methods.
 // 	See LPView.h for more methods.
 - (NSInteger)priority {
-	return 10; // Pages are rendered in descending priority order, so use an high value to put your view as first or a lower to put your page as last page.
+	return 1; // Pages are rendered in descending priority order, so use an high value to put your view as first or a lower to put your page as last page.
 }
 
 - (double)idleTimerInterval {
