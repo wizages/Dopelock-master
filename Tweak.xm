@@ -12,6 +12,7 @@ static bool militaryTime = false;
 static long long styleColor = 3;
 static bool disableCamGrabber = false;
 static bool disableHandOffGrabber = false;
+static bool rotRemind = true;
 
 
 id delegate;
@@ -21,7 +22,7 @@ int testing = 0;
 
 -(void)applicationDidFinishLaunching:(id)application {
 %orig;
-if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ){
+if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && rotRemind){
 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dopelock Helper"
     message:@"Rotate your iPad once to fix any landscape rotation issues!"
     delegate:nil
@@ -155,6 +156,7 @@ static void loadPrefs()
         styleColor = ( [prefs objectForKey:@"styleColor"] ? [[prefs objectForKey:@"styleColor"] longValue] : styleColor );
         disableHandOffGrabber =  ( [prefs objectForKey:@"disableHandOffGrabber"] ? [[prefs objectForKey:@"disableHandOffGrabber"] boolValue] : disableHandOffGrabber );
         disableCamGrabber =  ( [prefs objectForKey:@"disableCamGrabber"] ? [[prefs objectForKey:@"disableCamGrabber"] boolValue] : disableCamGrabber );
+        rotRemind =  ( [prefs objectForKey:@"rotRemind"] ? [[prefs objectForKey:@"rotRemind"] boolValue] : rotRemind );
 
         if(!user || user == nil)
             user=@"Friend";
