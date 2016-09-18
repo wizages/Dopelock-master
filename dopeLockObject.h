@@ -41,6 +41,7 @@
 @property(nonatomic) BOOL militaryTime;
 @property(nonatomic) BOOL fullBlur;
 @property(nonatomic) BOOL textColor;
+@property(nonatomic) long long styleColor;
 @property(retain, nonatomic) UIView *topView;
 @property(copy, nonatomic) NSString *user;
 @property(retain, nonatomic) UILabel *h1;
@@ -52,6 +53,7 @@
 @property(retain, nonatomic) UILabel *todayDate;
 @property(retain, nonatomic) UILabel *calendarLabel;
 @property(retain, nonatomic) UIView *separator;
+@property(retain, nonatomic) UIView *separator2;
 @property(retain, nonatomic) UIVisualEffectView *blurEffectView1;
 @property(retain, nonatomic) UIVisualEffectView *blurEffectView2;
 @property(copy, nonatomic) NSString *todayNCText;

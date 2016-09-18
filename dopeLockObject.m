@@ -1,5 +1,6 @@
 #import "Headers.h"
 #import "dopeLockObject.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation DopeLock
 
@@ -11,32 +12,39 @@
 
 -(void) randomGreeting {
     int smallest = 1;
-    int largest = 21;
+    int largest = 27;
     int random = smallest + arc4random() % (largest + 1 - smallest);
 
     switch (random)
     {
-    case 1: self.h2.text = @"Please check your events for today!"; break;
-    case 2: self.h2.text = @"How are you today?"; break;
-    case 3: self.h2.text = @"Have a nice day!"; break;
-    case 4: self.h2.text = @"You look so young today!"; break;
-    case 5: self.h2.text = @"Your smile brightens the room :)"; break;
-    case 6: self.h2.text = @"Have you lost weight?"; break;
-    case 7: self.h2.text = @"You look so young!"; break;
-    case 8: self.h2.text = @"Check the weather for today!"; break;
-    case 9: self.h2.text = @"You are a special person!"; break;
-    case 10: self.h2.text = @"You are not a failure"; break;
-    case 11: self.h2.text = @"It is a beautiful day!"; break;
-    case 12: self.h2.text = @"Hope you have a perfect day today!"; break;
-    case 13: self.h2.text = @"Good luck!"; break;
-    case 14: self.h2.text = @"You are so beautiful :)"; break;
-    case 15: self.h2.text = @"Every minute spent wih you is a minute well spent."; break;
-    case 16: self.h2.text = @"I hope you're having a good day!"; break;
-    case 17: self.h2.text = @"Be happy!"; break;
-    case 18: self.h2.text = @"Today is a new day, with infinite possibilities."; break;
-    case 19: self.h2.text = @"In a few hours, you can go back to sleep!"; break;
-    case 20: self.h2.text = @"YOOUUUUUHHHHOOOUUUU!"; break;
-    default: self.h2.text = @"You're awesome :)"; break;
+        case 1: self.h2.text = @"Please check your events for today!"; break;
+        case 2: self.h2.text = @"How are you today?"; break;
+        case 3: self.h2.text = @"Have a nice day!"; break;
+        case 4: self.h2.text = @"You look so young today!"; break;
+        case 5: self.h2.text = @"Your smile brightens the room :)"; break;
+        case 6: self.h2.text = @"Have you lost weight?"; break;
+        case 7: self.h2.text = @"You look so young!"; break;
+        case 8: self.h2.text = @"Check the weather for today!"; break;
+        case 9: self.h2.text = @"You are a special person!"; break;
+        case 10: self.h2.text = @"You are not a failure"; break;
+        case 11: self.h2.text = @"It is a beautiful day!"; break;
+        case 12: self.h2.text = @"Hope you have a perfect day today!"; break;
+        case 13: self.h2.text = @"Good luck!"; break;
+        case 14: self.h2.text = @"You are so beautiful :)"; break;
+        case 15: self.h2.text = @"All you need is a little love."; break;
+        case 16: self.h2.text = @"I hope you're having a good day!"; break;
+        case 17: self.h2.text = @"Be happy!"; break;
+        case 18: self.h2.text = @"Today is a new day, with infinite possibilities."; break;
+        case 19: self.h2.text = @"In a few hours, you can go back to sleep!"; break;
+        case 20: self.h2.text = @"The light behind your eyes!"; break;
+        case 21: self.h2.text = @"Make the best of today!"; break;
+        case 22: self.h2.text = @"You only live forever in the light you make!"; break;
+        case 23: self.h2.text = @"YOOUUUUUHHHHOOOUUUU!"; break;
+        case 24: self.h2.text = @"Say hello to good times!"; break;
+        case 25: self.h2.text = @"Check out CleanSheets on Cydia!"; break;
+        case 26: self.h2.text = @"One step at a time!"; break;
+        
+        default: self.h2.text = @"You're awesome :)"; break;
     }
 }
 
@@ -59,7 +67,8 @@
         [self.topView removeFromSuperview];
         [self.blurEffectView1 removeFromSuperview];
     }
-    if (hour > 8 && hour < 20) {
+    
+    if ((hour > 8 && hour < 20&& self.styleColor == 3) || self.styleColor == 0) {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     } else {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -69,8 +78,7 @@
         [self.blurEffectView1 setFrame:self.topView.bounds];
         [self.topView addSubview:self.blurEffectView1];
     }
-    else
-    {
+    else{
         self.blurEffectView1 = [[UIVisualEffectView alloc] initWithEffect:self.effect1];
         [self.blurEffectView1 setFrame:self.bounds];
         [self addSubview:self.blurEffectView1];
@@ -273,26 +281,9 @@
         [self.h1 removeFromSuperview];
     }
     self.h1.text = [NSString stringWithFormat:@"Good %@ %@!", timeOfDay, _user];
-    //if day time & no white labels: Black
-    if (!self.textColor && (hour > 8 && hour < 20)) {
-        self.h1.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.h2.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.ncToday.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.ncTomorrow.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.todayTomorrow.textColor = [UIColor colorWithRed:0.0 green:0.00 blue:0.00 alpha:1.0];
-        self.todayDate.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.calendarLabel.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-    }//if night & no white Labels: Light Gray
-    else if (!self.textColor && !(hour > 8 && hour < 20)){
-        self.h1.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.h2.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.ncToday.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.ncTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.todayTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.todayDate.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-        self.calendarLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
-    }//all white
-    else{
+    
+    //If you have white text enabled, the text will turn white!
+    if (self.textColor) {
         self.h1.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.h2.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.ncToday.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
@@ -301,6 +292,30 @@
         self.todayDate.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
         self.calendarLabel.textColor = [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
     }
+    // Black Text - (if Day time & Auto change) or (Light Theme )
+    else if  (((hour > 8 && hour < 20) && self.styleColor == 3) || self.styleColor == 0) {
+        self.h1.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.0 green:0.00 blue:0.00 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+    }
+    // Grey Text - (if Night time & Auto change) or (Dark Theme )
+    else if ((!(hour > 8 && hour < 20) && self.styleColor == 3) || self.styleColor == 1) {
+        self.h1.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.h2.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncToday.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.ncTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayTomorrow.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.todayDate.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+        self.calendarLabel.textColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:1.0];
+    }
+
+    
+    
+    
     if (self.h2 != nil) {
         [self.h2 removeFromSuperview];
     }
@@ -309,18 +324,20 @@
     if (self.ncToday != nil) {
         [self.ncToday removeFromSuperview];
     }
+    
+    //Location of NC Today text
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.ncToday.frame =  CGRectMake(20, 260, screenWidth - 30, 250);
+        self.ncToday.frame =  CGRectMake(20, 220, screenWidth - 100, 250);
     else
-        self.ncToday.frame = CGRectMake(5, 130, screenWidth - 30, 250);
+        self.ncToday.frame = CGRectMake(5, 120, screenWidth - 30, 250);
     //If event at least one event exists then display this text
     self.ncToday.text = self.todayNCText;
     //Else display this text
     //self.ncToday.text = self.todayAltNCText;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.ncToday.font = [self.ncToday.font fontWithSize:21];
+        self.ncToday.font = [UIFont systemFontOfSize:21 weight:UIFontWeightLight];
     else
-        self.ncToday.font = [self.ncToday.font fontWithSize:12];
+        self.ncToday.font = [self.ncToday.font fontWithSize:15];
     self.ncToday.lineBreakMode = UILineBreakModeWordWrap;
     self.ncToday.numberOfLines = 0;
     [self.ncToday sizeToFit];
@@ -329,15 +346,16 @@
     if (self.ncTomorrow != nil) {
         [self.ncTomorrow removeFromSuperview];
     }
+    //location of Tomorow Text
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.ncTomorrow.frame = CGRectMake(20, 425, screenWidth - 30, 250);
+        self.ncTomorrow.frame = CGRectMake(20, 340, screenWidth - 30, 250);
     else
         self.ncTomorrow.frame = CGRectMake(5, 245, screenWidth - 30, 250);
     self.ncTomorrow.text = self.tomorrowNCText;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.ncTomorrow.font = [self.ncTomorrow.font fontWithSize:21];
     else
-        self.ncTomorrow.font = [self.ncTomorrow.font fontWithSize:12];
+        self.ncTomorrow.font = [self.ncTomorrow.font fontWithSize:15];
     self.ncTomorrow.lineBreakMode = UILineBreakModeWordWrap;
     self.ncTomorrow.numberOfLines = 0;
     [self.ncTomorrow sizeToFit];
@@ -348,6 +366,13 @@
         self.separator.backgroundColor = [UIColor whiteColor];
     else
         self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    
+    if(self.separator2 != nil)
+        [self.separator2 removeFromSuperview];
+    if(self.textColor)
+        self.separator2.backgroundColor = [UIColor whiteColor];
+    else
+        self.separator2.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
 
     if(self.todayTomorrow != nil)
         [self.todayTomorrow removeFromSuperview];
@@ -365,7 +390,7 @@
         [self.blurEffectView2 removeFromSuperview];
     }
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -393,7 +418,10 @@
         [viewInducingVibrancy.contentView addSubview:self.ncTomorrow];
         if(self.separator != nil)
            [self.separator removeFromSuperview];
+        if(self.separator2 != nil)
+            [self.separator2 removeFromSuperview];
         [viewInducingVibrancy.contentView addSubview:self.separator];
+        [viewInducingVibrancy.contentView addSubview:self.separator2];
         [self addSubview:viewInducingVibrancy];
     }
     else{
@@ -407,6 +435,8 @@
         [self addSubview:self.ncToday];
         [self addSubview:self.ncTomorrow];
         [self addSubview:self.separator];
+        [self addSubview:self.separator2];
+
     }
     
     //[viewInducingVibrancy addSubview:self.topView];
@@ -440,11 +470,11 @@
     [timeFormat release];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.ncToday = [[UILabel alloc] initWithFrame:CGRectMake(20, 260, screenWidth - 30, 250)];
+        self.ncToday = [[UILabel alloc] initWithFrame:CGRectMake(20, 270, screenWidth - 30, 250)];
     else
         self.ncToday = [[UILabel alloc] initWithFrame:CGRectMake(5, 130, screenWidth - 30, 250)];
     self.ncToday.text = self.todayNCText;
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.ncToday.textColor = [UIColor blackColor];
     } else {
         self.ncToday.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -463,7 +493,7 @@
     else
         self.ncTomorrow = [[UILabel alloc] initWithFrame:CGRectMake(5, 245, screenWidth - 30, 250)];
     self.ncTomorrow.text = self.tomorrowNCText;
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.ncTomorrow.textColor = [UIColor blackColor];
     } else {
         self.ncTomorrow.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -487,17 +517,17 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.h1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, screenWidth, 60)];
     else
-        self.h1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, screenWidth, 37)];
+        self.h1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 37)];
     self.h1.backgroundColor = [UIColor clearColor];
     self.h1.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.h1.textColor = [UIColor blackColor];
     } else {
         //self.h1.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
     }
     self.h1.text = [NSString stringWithFormat:@"Good %@ %@!", timeOfDay, _user];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.h1.font = [self.h1.font fontWithSize:55];
+        self.h1.font = [UIFont systemFontOfSize:55 weight:UIFontWeightLight];
     else
         self.h1.font = [self.h1.font fontWithSize:32];
     [self addSubview:self.h1];
@@ -505,11 +535,11 @@
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         self.h2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, screenWidth, 50)];
     else
-        self.h2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 37, screenWidth, 32)];
+        self.h2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, screenWidth, 32)];
 
     self.h2.backgroundColor = [UIColor clearColor];
     self.h2.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.h2.textColor = [UIColor blackColor];
     } else {
         self.h2.textColor = [UIColor colorWithRed:145.0f / 255.0f green:145.0f / 255.0f blue:145.0f / 255.0f alpha:1.0f];
@@ -523,9 +553,15 @@
     [self addSubview:self.h2];
 
     // "Good..." + "Please..." view (at the top) + blur
-    self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight / 8)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        self.topView = [[UIView alloc] initWithFrame:CGRectMake(screenWidth-screenWidth*.99, 0, screenWidth*.98, screenHeight / 9)];
+        self.topView.layer.cornerRadius = 5;
+        self.topView.layer.masksToBounds = YES;
+    }
+    else
+        self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight / 8)];
     self.topView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.01];
-    if (hour > 8 && hour < 20) {
+    if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     } else {
         self.effect1 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -541,9 +577,9 @@
         [self addSubview:self.blurEffectView1];
     }
 
-    // Today & tomorrow label
+    // Static Label: Today & Tomorrow
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.todayTomorrow = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, 250, 50)];
+        self.todayTomorrow = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 250, 50)];
     else
         self.todayTomorrow = [[UILabel alloc] initWithFrame:CGRectMake(5, 85, 150, 50)];
     self.todayTomorrow.backgroundColor = [UIColor clearColor];
@@ -554,10 +590,9 @@
         self.todayTomorrow.font = [self.todayTomorrow.font fontWithSize:25];
     else
         self.todayTomorrow.font = [self.todayTomorrow.font fontWithSize:14];
-
-    // Label for the date
+    // Static Label: Todays Date
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.todayDate = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth - 400, 200, 380, 50)];
+        self.todayDate = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth - 400, 180, 380, 50)];
     else
         self.todayDate = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth - 255, 85, 250, 50)];
     self.todayDate.backgroundColor = [UIColor clearColor];
@@ -569,14 +604,21 @@
     else
         self.todayDate.font = [self.todayDate.font fontWithSize:14];
 
+    
     // View for the today & tomorrow text + blur
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.todayTomorrowView = [[UIView alloc] initWithFrame:CGRectMake(0, 250, screenWidth, 250)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        self.todayTomorrowView = [[UIView alloc] initWithFrame:CGRectMake(screenWidth-screenWidth*.99, 180, screenWidth*.98, 250)];
+       self.todayTomorrowView.layer.cornerRadius = 5;
+       self.todayTomorrowView.layer.masksToBounds = YES;
+    }
     else
         self.todayTomorrowView = [[UIView alloc] initWithFrame:CGRectMake(0, 125, screenWidth, 175)];
+    
+    
+    
     self.todayTomorrowView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.01];
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect2 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -588,7 +630,7 @@
 
     // Calendar label
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.calendarLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 535, 250, 50)];
+        self.calendarLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 470, 250, 50)];
     else
         self.calendarLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 300, 250, 50)];
     self.calendarLabel.backgroundColor = [UIColor clearColor];
@@ -609,13 +651,22 @@
 
     // This beautiful line :)
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.separator = [[UIView alloc] initWithFrame:CGRectMake(0, 400, screenWidth, 1)];
+        self.separator = [[UIView alloc] initWithFrame:CGRectMake(screenWidth-screenWidth*.99, 330, screenWidth*.98, 1)];
     else
         self.separator = [[UIView alloc] initWithFrame:CGRectMake(0, 240, screenWidth, 1)];
     if(self.textColor)
         self.separator.backgroundColor = [UIColor whiteColor];
     else
         self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+    
+    // Another Line
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        self.separator2 = [[UIView alloc] initWithFrame:CGRectMake(screenWidth-screenWidth*.99, 230, screenWidth*.98, 1)];
+    if(self.textColor)
+        self.separator2.backgroundColor = [UIColor whiteColor];
+    else
+        self.separator2.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+
 
     // Display views + labels
     //[self addSubview:self.topView];
@@ -626,6 +677,8 @@
     [self addSubview:self.todayTomorrowView];
     [self addSubview:self.calendarLabel];
     [self addSubview:self.separator];
+    [self addSubview:self.separator2];
+
 
     //[eventScrollView addSubview:tomorrowLabel];
 }
@@ -668,12 +721,12 @@
     {
         [self.h1 removeFromSuperview];
     }
-    self.h1.frame = CGRectMake(0, 5, screenWidth, 60);
+    self.h1.frame = CGRectMake(0, 10, screenWidth, 60);
     if (self.h2 != nil)
     {
         [self.h2 removeFromSuperview];
     }
-    self.h2.frame = CGRectMake(0, 90, screenWidth, 60);
+    self.h2.frame = CGRectMake(0, 100, screenWidth, 60);
 
     // "Good morning" label
     /*
@@ -794,6 +847,12 @@
     }
     self.separator.frame = CGRectMake(0, 400, screenWidth, 1);
 
+    // This beautiful line :)
+    if (self.separator2 != nil) {
+        [self.separator2 removeFromSuperview];
+    }
+    self.separator2.frame = CGRectMake(0, 400, screenWidth, 1);
+    
     /*
     self.separator.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
     */
@@ -818,6 +877,7 @@
     [self addSubview:self.todayTomorrowView];
     [self addSubview:self.calendarLabel];
     [self addSubview:self.separator];
+    [self addSubview:self.separator2];
     [self addSubview:self.ncToday];
     [self addSubview:self.ncTomorrow];
 
@@ -855,13 +915,16 @@
         [*eventView removeFromSuperview];
         [*eventView release];
     }
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        *eventView = [[UIView alloc] initWithFrame:CGRectMake(0, 580 + (170 * dayNumber) , screenWidth, 150)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        *eventView = [[UIView alloc] initWithFrame:CGRectMake(screenWidth-screenWidth*.99, 525 + (170 * dayNumber) , screenWidth*.98, 150)];
+        //self.eventView.layer.cornerRadius = 55; //might want to delete
+        //self.eventView.layer.masksToBounds = YES;
+    }
     else
         *eventView = [[UIView alloc] initWithFrame:CGRectMake(0, 340 + (170 * dayNumber) , screenWidth, 150)];
     [*eventView setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.01]];
     if (!self.fullBlur){
-        if (hour > 8 && hour < 20) {
+        if ((hour > 8 && hour < 20 && self.styleColor == 3) || self.styleColor == 0) {
             self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         } else {
             self.effect3 = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];

@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = DopeLock
-DopeLock_FILES = dopelockRootListController.m dopelockMakersListController.m SKPersonCell.m
+DopeLock_FILES = dopelockRootListController.m $(wildcard *.m) $(wildcard *.xm) $(wildcard *.mm)
 DopeLock_INSTALL_PATH = /Library/PreferenceBundles
 DopeLock_FRAMEWORKS = UIKit Social
 DopeLock_PRIVATE_FRAMEWORKS = Preferences

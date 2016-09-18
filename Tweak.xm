@@ -9,11 +9,31 @@ static LPViewController *_mainPage;
 static NSString *user = @"Friend";
 static bool keepLSNotif = false;
 static bool militaryTime = false;
+static long long styleColor = 3;
+static bool disableCamGrabber = false;
+static bool disableHandOffGrabber = false;
+static bool rotRemind = true;
+
 
 id delegate;
 int testing = 0;
 
+%hook SpringBoard
 
+-(void)applicationDidFinishLaunching:(id)application {
+%orig;
+if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && rotRemind){
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Dopelock Helper"
+    message:@"Rotate your iPad once to fix any landscape rotation issues!"
+    delegate:nil
+    cancelButtonTitle:@"Sure!"
+    otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    }
+}
+
+%end
 
 %hook BBBulletin
 
@@ -45,7 +65,6 @@ int testing = 0;
                 [todayArray replaceObjectAtIndex:4 withObject:test.message];
             }
         }
-        
         return test;
     }
     else
@@ -64,6 +83,8 @@ int testing = 0;
         [_mainPage setBlur:fullBlur];
         [_mainPage addUser:user];
         [_mainPage addArray:todayArray];
+        [_mainPage viewWillAppear:NO];
+        %orig;
     }
     %orig;
 }
@@ -90,9 +111,6 @@ int testing = 0;
 %end
 
 %hook SBLockScreenViewController
-
-
-
 - (_Bool)isBounceEnabledForPresentingController:(id)arg1 locationInWindow:(struct CGPoint)arg2 {
     if(enabled)
         return NO;
@@ -100,6 +118,27 @@ int testing = 0;
         return %orig;
 }
 
+- (void)_addCameraGrabberIfNecessary{
+	if(disableCamGrabber){
+		//No camera grabber :)
+	}	
+	else
+		%orig;
+}
+        
+- (void)_addBottomLeftGrabberIfNecessaryForAutoUnlock:(_Bool)arg1{
+	if(disableHandOffGrabber){
+		//No handoff grabber :)
+	}	
+	else
+		%orig;
+}
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    %orig;
+    [_mainPage rotateView];
+}
 
 %end
 
@@ -114,6 +153,11 @@ static void loadPrefs()
         fullBlur = ( [prefs objectForKey:@"fullBlur"] ? [[prefs objectForKey:@"fullBlur"] boolValue] : fullBlur );
         keepLSNotif = ( [prefs objectForKey:@"keepLSNotif"] ? [[prefs objectForKey:@"keepLSNotif"] boolValue] : keepLSNotif );
         militaryTime = ( [prefs objectForKey:@"militaryTime"] ? [[prefs objectForKey:@"militaryTime"] boolValue] : militaryTime );
+        styleColor = ( [prefs objectForKey:@"styleColor"] ? [[prefs objectForKey:@"styleColor"] longValue] : styleColor );
+        disableHandOffGrabber =  ( [prefs objectForKey:@"disableHandOffGrabber"] ? [[prefs objectForKey:@"disableHandOffGrabber"] boolValue] : disableHandOffGrabber );
+        disableCamGrabber =  ( [prefs objectForKey:@"disableCamGrabber"] ? [[prefs objectForKey:@"disableCamGrabber"] boolValue] : disableCamGrabber );
+        rotRemind =  ( [prefs objectForKey:@"rotRemind"] ? [[prefs objectForKey:@"rotRemind"] boolValue] : rotRemind );
+
         if(!user || user == nil)
             user=@"Friend";
     }
@@ -131,6 +175,7 @@ static void loadPrefs()
              [_mainPage setBlur:fullBlur];
              [_mainPage addUser:user];
              [_mainPage setColor:textColor];
+             [_mainPage setStyleColor:styleColor];
             [[LPPageController sharedInstance] addPage:_mainPage];
     }
     }
